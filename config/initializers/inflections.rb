@@ -28,4 +28,5 @@
 #   # => "/gitlabhq/commits/stable/README.md"
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.uncountable %w(commits)
+  inflect.uncountable %w(tags)
 end

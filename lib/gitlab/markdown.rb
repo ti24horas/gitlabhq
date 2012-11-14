@@ -31,6 +31,7 @@ module Gitlab
         @([\w\._]+)   # User name (3)
         |[#!$](\d+)   # Issue/MR/Snippet ID (4)
         |([\h]{6,40}) # Commit ID (5)
+        |%([\._]+)    # TAG ID
       )
       (\W)?           # Suffix (6)
     }x.freeze
@@ -144,6 +145,7 @@ module Gitlab
       when /^!/  then reference_merge_request(identifier)
       when /^\$/ then reference_snippet(identifier)
       when /^\h/ then reference_commit(identifier)
+      when /^%/ then reference_tag(identifier)
       end
     end
 
@@ -177,5 +179,8 @@ module Gitlab
         link_to(identifier, project_commit_path(@project, commit), html_options.merge(title: CommitDecorator.new(commit).link_title, class: "gfm gfm-commit #{html_options[:class]}"))
       end
     end
+    def reference_tag(identifier)
+      if @project.valid_repo? && tag = identifier if @project.tag_names.include?(identifier)
+        link_to(identifier, project_tag_path(@project, tag), html_options.merge(title: TagDecorator.new(tag).link_title, class: "gfm gfm-tag #{html_options[:class]}"))
   end
 end
