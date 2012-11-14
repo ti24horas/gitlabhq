@@ -183,5 +183,5 @@ module Gitlab
       if @project.valid_repo?
         link_to(identifier, project_tag_path(@project, tag), html_options.merge(title: TagDecorator.new(tag).link_title, class: "gfm gfm-tag #{html_options[:class]}"))
       end
-  end
+    end
 end
